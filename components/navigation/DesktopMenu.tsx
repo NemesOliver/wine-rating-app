@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import {
   Toolbar,
   IconButton,
@@ -21,6 +22,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const drawerWidth = 240;
 
 const DesktopMenu = () => {
+  const { isSignedIn } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
 
   return (
@@ -39,7 +41,11 @@ const DesktopMenu = () => {
         <Typography sx={{ flexGrow: 1 }} variant="h6">
           Home
         </Typography>
-        <Button color="inherit">Log In</Button>
+        {isSignedIn ? (
+          <Button color="inherit">Log Out</Button>
+        ) : (
+          <Button color="inherit">Log In</Button>
+        )}
       </Toolbar>
       <Drawer open={open} onClose={() => setOpen(false)}>
         <List
