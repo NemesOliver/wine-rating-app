@@ -4,6 +4,7 @@ import { AppBar, Toolbar, IconButton } from "@mui/material";
 import MobileMenu from "./MobileMenu";
 import DesktopMenu from "./DesktopMenu";
 import { Theme } from "@emotion/react";
+import MobileTop from "./MobileTop";
 
 const Navbar = () => {
   const theme = useTheme();
@@ -11,6 +12,7 @@ const Navbar = () => {
 
   return (
     <>
+      <MobileTop />
       <AppBar
         color="primary"
         position="fixed"
