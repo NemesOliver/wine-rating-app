@@ -1,24 +1,33 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Link from "next/link";
-import { Container, TextField, Button, Typography } from "@mui/material";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { SnackbarContext } from "../context/SnackbarContext";
+import { Container, TextField, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 const Login = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { triggerSnackbar } = useContext(SnackbarContext);
 
   // error handling needs to be done
   const onClickCreateUser = () => {
     const auth = getAuth();
+    setLoading(true);
 
     signInWithEmailAndPassword(auth, email, password)
       .then((user) => {
+        setLoading(false);
         router.push("/");
       })
-      .catch((e) => console.log(e));
-    // notify user of error
+      .catch((e: Error) => {
+        setLoading(false);
+        triggerSnackbar("error", e.message);
+        console.warn(e);
+      });
   };
 
   return (
@@ -60,14 +69,15 @@ const Login = () => {
             fullWidth
             sx={{ margin: "2rem 0 2rem 0" }}
           />
-          <Button
+          <LoadingButton
             onClick={onClickCreateUser}
             variant="contained"
             fullWidth
             size="large"
+            loading={loading}
           >
             Sign in
-          </Button>
+          </LoadingButton>
         </form>
         <Typography
           margin={(theme) => theme.spacing(3)}

@@ -1,24 +1,34 @@
+import { useState, useContext } from "react";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import Link from "next/link";
-import { Container, TextField, Button, Typography } from "@mui/material";
+import { SnackbarContext } from "../context/SnackbarContext";
+import { Container, TextField, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const Register = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { triggerSnackbar } = useContext(SnackbarContext);
 
   const onClickCreateUser = () => {
     const auth = getAuth();
-
+    setLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((user) => {
-        // create user in user collection
+        // create user in user collection -- pending
+        setLoading(false);
+        triggerSnackbar("success", "Your account was succesfully created!");
         router.push("/");
       })
       // notify user of error
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        setLoading(false);
+        triggerSnackbar("error", e.message);
+        console.log(e);
+      });
   };
 
   return (
@@ -60,14 +70,15 @@ const Register = () => {
             fullWidth
             sx={{ margin: "2rem 0 2rem 0" }}
           />
-          <Button
+          <LoadingButton
             onClick={onClickCreateUser}
             variant="contained"
             fullWidth
             size="large"
+            loading={loading}
           >
             Sign in
-          </Button>
+          </LoadingButton>
         </form>
         <Typography
           margin={(theme) => theme.spacing(3)}

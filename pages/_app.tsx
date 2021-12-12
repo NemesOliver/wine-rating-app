@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import type { AppProps } from "next/app";
 import AuthContextProvider from "../context/AuthContext";
+import SnackbarContextProvider from "../context/SnackbarContext";
 import initializeFirebase from "../firebase";
 import Layout from "../components/Layout";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { theme } from "../components/styles/theme";
-import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -14,10 +15,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <AuthContextProvider>
-        <CssBaseline />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <SnackbarContextProvider>
+          <CssBaseline />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </SnackbarContextProvider>
       </AuthContextProvider>
     </ThemeProvider>
   );
