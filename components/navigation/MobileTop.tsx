@@ -6,7 +6,7 @@ import { MobileTopNavigation } from "./MobileTop.styled";
 const MobileTop = () => {
   return (
     <MobileTopNavigation>
-      <IconButton>
+      <IconButton edge="start">
         <ArrowBackIosNewIcon />
       </IconButton>
       <Button color="primary">Log in</Button>
