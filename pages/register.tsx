@@ -5,6 +5,7 @@ import { SnackbarContext } from "../context/SnackbarContext";
 import { Container, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, collection, setDoc, doc } from "firebase/firestore";
 
 const Register = () => {
   const router = useRouter();
@@ -15,19 +16,38 @@ const Register = () => {
 
   const onClickCreateUser = () => {
     const auth = getAuth();
+    const db = getFirestore();
+    const userColRef = collection(db, "users");
+
     setLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((user) => {
-        // create user in user collection -- pending
-        setLoading(false);
-        triggerSnackbar("success", "Your account was succesfully created!");
-        router.push("/");
+        // create user in user collection - firebase
+        const uid = user.user.uid;
+        const email = user.user.email;
+
+        setDoc(doc(userColRef), {
+          uid,
+          email,
+          photoUrl: "",
+          favorites: [],
+          wines: [],
+        })
+          .then(() => {
+            // notify user of success
+            setLoading(false);
+            triggerSnackbar("success", "Your account was succesfully created!");
+            router.push("/");
+          })
+          .catch((e) => {
+            console.warn(e);
+          });
       })
-      // notify user of error
       .catch((e) => {
         setLoading(false);
-        triggerSnackbar("error", e.message);
-        console.log(e);
+        // notify user of error
+        triggerSnackbar("error", e.code.slice(5));
+        console.warn(e);
       });
   };
 

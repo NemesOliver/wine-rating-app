@@ -5,10 +5,10 @@ import { AuthContext } from "../context/AuthContext";
 import { SnackbarContext } from "../context/SnackbarContext";
 
 const Home: NextPage = () => {
-  const { isSignedIn, user } = useContext(AuthContext);
+  const { isSignedIn, currentUser } = useContext(AuthContext);
   const { triggerSnackbar } = useContext(SnackbarContext);
 
-  console.log(isSignedIn, user);
+  console.log(isSignedIn, currentUser);
 
   return (
     <div>

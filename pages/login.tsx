@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import { useState, useContext } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { SnackbarContext } from "../context/SnackbarContext";
@@ -23,9 +23,9 @@ const Login = () => {
         setLoading(false);
         router.push("/");
       })
-      .catch((e: Error) => {
+      .catch((e) => {
         setLoading(false);
-        triggerSnackbar("error", e.message);
+        triggerSnackbar("error", e.code.slice(5));
         console.warn(e);
       });
   };
@@ -85,7 +85,7 @@ const Login = () => {
           variant="subtitle2"
         >
           Don&apos;t have an account? <br />
-          <Link href="/register">Register</Link> your account free today!
+          <Link href="/register">Register</Link> your free account today!
         </Typography>
       </Container>
     </section>
