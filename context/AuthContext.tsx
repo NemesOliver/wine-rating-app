@@ -9,12 +9,12 @@ interface AuthContextProps {
 }
 
 interface AuthProviderValue {
-  isSignedIn: boolean;
+  isSignedIn: boolean | null;
   currentUser: string;
 }
 
 const AuthContextProvider = ({ children }: AuthContextProps) => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null);
   const [currentUser, setCurrentUser] = useState("");
 
   useEffect(() => {
