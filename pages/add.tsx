@@ -29,7 +29,6 @@ const AddWine = () => {
   const [region, setRegion] = useState("");
   const [selectValue, setSelectValue] = useState("red");
 
-
   // 1. write logic to create a doc in firebase
   // 2. if promise resolved push to /
   // 3. if promise unresolved trigger snackbar
@@ -46,7 +45,9 @@ const AddWine = () => {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h4">Add wine to colection.</Typography>
+        <Typography align="center" variant="h4">
+          Add wine to colection.
+        </Typography>
         <Typography
           margin={(theme) => theme.spacing(3)}
           align="center"

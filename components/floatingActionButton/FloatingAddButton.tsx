@@ -12,8 +12,8 @@ const FloatingAddButton = () => {
     <Box
       sx={
         isMobile
-          ? { position: "absolute", bottom: 75, right: 15 }
-          : { position: "absolute", bottom: 50, right: 50 }
+          ? { position: "fixed", bottom: 75, right: 15 }
+          : { position: "fixed", bottom: 50, right: 50 }
       }
     >
       <Link href="/add" passHref>
