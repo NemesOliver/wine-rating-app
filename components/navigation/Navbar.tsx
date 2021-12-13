@@ -1,9 +1,8 @@
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { AppBar, Toolbar, IconButton } from "@mui/material";
+import { AppBar } from "@mui/material";
 import MobileMenu from "./MobileMenu";
 import DesktopMenu from "./DesktopMenu";
-import { Theme } from "@emotion/react";
 import MobileTop from "./MobileTop";
 
 const Navbar = () => {

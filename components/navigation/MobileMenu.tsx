@@ -6,12 +6,10 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const MobileMenu = () => {
-  
-
   return (
     <>
       <Toolbar sx={{ display: "flex", justifyContent: "space-evenly" }}>
-        <Link href='/' passHref>
+        <Link href="/" passHref>
           <IconButton color="inherit">
             <HomeIcon />
           </IconButton>
@@ -22,9 +20,11 @@ const MobileMenu = () => {
         <IconButton color="inherit">
           <FilterListIcon />
         </IconButton>
-        <IconButton color="inherit">
-          <AccountCircleIcon />
-        </IconButton>
+        <Link href="/profile" passHref>
+          <IconButton color="inherit">
+            <AccountCircleIcon />
+          </IconButton>
+        </Link>
       </Toolbar>
     </>
   );
