@@ -10,15 +10,18 @@ const withAuth = (Component: FunctionComponent) => {
 
     //Check if we are on client
     if (typeof window !== "undefined") {
+      // if loading show loader
       if (isSignedIn === null) {
         return <Backdrop />;
       }
 
+      // if no user redirect to /login
       if (!isSignedIn) {
         Router.replace("login");
         return null;
       }
 
+      // if logged in
       return <Component {...props} />;
     }
 
