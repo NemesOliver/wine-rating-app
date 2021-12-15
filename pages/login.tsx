@@ -13,8 +13,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const { triggerSnackbar } = useContext(SnackbarContext);
 
-  // error handling needs to be done
-  const onClickCreateUser = () => {
+  const onClickLogInUser = () => {
     const auth = getAuth();
     setLoading(true);
 
@@ -70,7 +69,7 @@ const Login = () => {
             sx={{ margin: "2rem 0 2rem 0" }}
           />
           <LoadingButton
-            onClick={onClickCreateUser}
+            onClick={onClickLogInUser}
             variant="contained"
             fullWidth
             size="large"

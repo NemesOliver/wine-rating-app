@@ -6,12 +6,11 @@ import { SnackbarContext } from "../context/SnackbarContext";
 import Card from "../components/card/Card";
 import { Container } from "@mui/material";
 import FloatingAddButton from "../components/floatingActionButton/FloatingAddButton";
+import RadioButtons from "../components/radioButtons/RadioButtons";
 
 const Home: NextPage = () => {
   const { isSignedIn, currentUser } = useContext(AuthContext);
   const { triggerSnackbar } = useContext(SnackbarContext);
-
-  console.log(isSignedIn, currentUser);
 
   return (
     <div>
@@ -33,6 +32,10 @@ const Home: NextPage = () => {
         <br />
         <Card />
       </Container>
+      <br />
+      <br />
+      <br />
+      <RadioButtons />
       {isSignedIn && <FloatingAddButton />}
     </div>
   );
