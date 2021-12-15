@@ -10,12 +10,12 @@ interface AuthContextProps {
 
 interface AuthProviderValue {
   isSignedIn: boolean | null;
-  currentUser: string;
+  currentUserId: string;
 }
 
 const AuthContextProvider = ({ children }: AuthContextProps) => {
   const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null);
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUserId, setCurrentUserId] = useState("");
 
   useEffect(() => {
     initializeFirebase();
@@ -24,10 +24,10 @@ const AuthContextProvider = ({ children }: AuthContextProps) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsSignedIn(true);
-        setCurrentUser(user.uid);
+        setCurrentUserId(user.uid);
       } else {
         setIsSignedIn(false);
-        setCurrentUser("");
+        setCurrentUserId("");
       }
     });
 
@@ -35,7 +35,7 @@ const AuthContextProvider = ({ children }: AuthContextProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isSignedIn, currentUser }}>
+    <AuthContext.Provider value={{ isSignedIn, currentUserId }}>
       {children}
     </AuthContext.Provider>
   );

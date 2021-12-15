@@ -46,7 +46,7 @@ const AddWine = () => {
         }}
       >
         <Typography align="center" variant="h4">
-          Add wine to colection.
+          Add wine to collection.
         </Typography>
         <Typography
           margin={(theme) => theme.spacing(3)}

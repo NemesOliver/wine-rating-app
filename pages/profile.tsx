@@ -2,14 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { getDocs, collection, getFirestore } from "firebase/firestore";
 import initializeFirebase from "../firebase";
 import { AuthContext } from "../context/AuthContext";
-import { useRouter } from "next/router";
 
 import withAuth from "../components/withAuth";
 
 const Profile = () => {
-  const router = useRouter();
-  const { currentUser, isSignedIn } = useContext(AuthContext);
+  const { currentUserId } = useContext(AuthContext);
   const [userProfile, setUserProfile] = useState({});
+
+  console.log(userProfile, currentUserId);
 
   useEffect(() => {
     initializeFirebase();
@@ -19,14 +19,14 @@ const Profile = () => {
       const snapshot = await getDocs(usersColRef);
       let userFound = {};
       await snapshot.docs.forEach((doc) => {
-        if (doc.data().uid === currentUser) {
+        if (doc.data().uid === currentUserId) {
           userFound = { ...doc.data() };
         }
       });
       setUserProfile(userFound);
     };
     getUser();
-  }, [currentUser]);
+  }, [currentUserId]);
 
   return <div>User Profile</div>;
 };
