@@ -1,4 +1,4 @@
-import { useContext, ReactNode } from "react";
+import { useContext, ReactNode, useEffect, useState } from "react";
 import type {
   GetServerSideProps,
   GetStaticProps,
@@ -28,10 +28,30 @@ interface Wine {
   photoUrl: string;
 }
 
-const Home: NextPage<PageProps> = ({ wines }) => {
+const Home: NextPage<PageProps> = () => {
   const { isSignedIn } = useContext(AuthContext);
+  const [wines, setWines] = useState<any[]>([]);
 
-  console.log(wines);
+  useEffect(() => {
+    const getWines = async () => {
+      initializeFirebase();
+      const db = getFirestore();
+      const winesColRef = collection(db, "wines");
+
+      try {
+        const snapshot = await getDocs(winesColRef);
+        const wines = await snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+
+        setWines(wines);
+      } catch (e) {
+        console.warn(e);
+      }
+    };
+    getWines();
+  }, []);
 
   return (
     <div>
@@ -74,31 +94,26 @@ const Home: NextPage<PageProps> = ({ wines }) => {
   );
 };
 
-export const getServerSideProps = async () => {
-  initializeFirebase();
-  const db = getFirestore();
-  const winesColRef = collection(db, "wines");
-  let wines: {}[] = [];
+// WHY DONT YOU WORK????
 
-  try {
-    const snapshot = await getDocs(winesColRef);
-    await snapshot.docs.forEach((doc) => {
-      wines.push({ ...doc.data(), id: doc.id });
-    });
-  } catch (e) {
-    console.warn(e);
-  }
+// export const getServerSideProps = async () => {
+//   initializeFirebase();
+//   const db = getFirestore();
+//   const winesColRef = collection(db, "wines");
+//   let wines: {}[] = [];
 
-  // const snapshot = await getDocs(winesColRef);
-  // const wines = await snapshot.docs.map((doc) => ({
-  //   ...doc.data(),
-  //   id: doc.id,
-  // }));
-  // try an catch
+//   try {
+//     const snapshot = await getDocs(winesColRef);
+//     await snapshot.docs.forEach((doc) => {
+//       wines.push({ ...doc.data(), id: doc.id });
+//     });
+//   } catch (e) {
+//     console.warn(e);
+//   }
 
-  return {
-    props: { wines },
-  };
-};
+//   return {
+//     props: { wines },
+//   };
+// };
 
 export default Home;
