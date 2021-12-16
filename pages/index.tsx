@@ -20,6 +20,7 @@ interface Wine {
   region: string;
   type: string;
   id: string;
+  photoUrl: string
 }
 
 const Home: NextPage<PageProps> = ({ wines }) => {

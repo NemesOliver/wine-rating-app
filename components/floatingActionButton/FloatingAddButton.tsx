@@ -16,7 +16,7 @@ const FloatingAddButton = () => {
           : { position: "fixed", bottom: 50, right: 50 }
       }
     >
-      <Link href="/add" passHref>
+      <Link href="/wine/add" passHref>
         <Fab color="primary" aria-label="add">
           <AddIcon />
         </Fab>

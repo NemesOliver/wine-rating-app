@@ -1,12 +1,11 @@
-import { useState } from "react";
-import withAuth from "../components/withAuth";
-import {
-  Container,
-  MenuItem,
-  TextField,
-  Button,
-  Typography,
-} from "@mui/material";
+import { useState, useContext } from "react";
+import { useRouter } from "next/router";
+import initializeFirebase from "../../firebase";
+import { SnackbarContext } from "../../context/SnackbarContext";
+import { getFirestore, addDoc, collection } from "firebase/firestore";
+import withAuth from "../../components/withAuth";
+import { LoadingButton } from "@mui/lab";
+import { Container, MenuItem, TextField, Typography } from "@mui/material";
 
 const selectOptions = [
   {
@@ -23,15 +22,51 @@ const selectOptions = [
   },
 ];
 
+// Default wine image
+const photoUrl =
+  "https://www.weaverswines.com/media/catalog/product/placeholder/default/Place_Holder_weavers_1_1.jpg";
+
 const AddWine = () => {
+  const Router = useRouter();
+  const { triggerSnackbar } = useContext(SnackbarContext);
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [region, setRegion] = useState("");
   const [selectValue, setSelectValue] = useState("red");
 
-  // 1. write logic to create a doc in firebase
-  // 2. if promise resolved push to /
-  // 3. if promise unresolved trigger snackbar
+  // add validation, shouldnt be able to submit empty doc
+
+  const addWineToFirestore = () => {
+    // Get collection
+    initializeFirebase();
+    const db = getFirestore();
+    const winesColRef = collection(db, "wines");
+
+    setLoading(true);
+
+    addDoc(winesColRef, {
+      name,
+      price,
+      region,
+      rating: [],
+      type: selectValue,
+      photoUrl,
+    })
+      .then(() => {
+        setLoading(false);
+        Router.push("/");
+        triggerSnackbar(
+          "success",
+          "Your wine has been successfuly added to collection."
+        );
+      })
+      .catch((e) => {
+        setLoading(false);
+        console.warn(e);
+        triggerSnackbar(e.code.split(5));
+      });
+  };
 
   return (
     <main>
@@ -96,15 +131,17 @@ const AddWine = () => {
             </MenuItem>
           ))}
         </TextField>
-        <Button
+        <LoadingButton
           sx={{ marginTop: "2rem" }}
           fullWidth
+          loading={loading}
           variant="contained"
           color="primary"
           size="large"
+          onClick={addWineToFirestore}
         >
           Submit
-        </Button>
+        </LoadingButton>
       </Container>
     </main>
   );
