@@ -16,11 +16,11 @@ interface PageProps {
 interface Wine {
   name: string;
   price: string;
-  rating: string[];
+  rating: number[];
   region: string;
   type: string;
   id: string;
-  photoUrl: string
+  photoUrl: string;
 }
 
 const Home: NextPage<PageProps> = ({ wines }) => {

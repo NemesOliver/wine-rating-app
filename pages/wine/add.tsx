@@ -34,7 +34,7 @@ const AddWine = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [region, setRegion] = useState("");
@@ -58,7 +58,7 @@ const AddWine = () => {
     } else {
       addDoc(winesColRef, {
         name,
-        price,
+        price: parseInt(price),
         region,
         rating: [],
         type: selectValue,

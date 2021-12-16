@@ -16,7 +16,7 @@ interface CardProps {
   wine: {
     name: string;
     price: string;
-    rating: string[];
+    rating: number[];
     region: string;
     type: string;
     photoUrl: string;
@@ -25,6 +25,23 @@ interface CardProps {
 }
 
 const Card: FunctionComponent<CardProps> = ({ wine }) => {
+  const rating = () => {
+    console.log(wine.rating);
+    if (wine.rating.length) {
+      const averageRating = wine.rating
+        .reduce((a, b) => (a + b) / wine.rating.length)
+        .toFixed();
+
+      const stars = Array(parseInt(averageRating))
+        .fill("star")
+        .map((star, index) => <StarIcon key={index} color="warning" />);
+        // render additional empty stars for missing rating up to 5
+
+      return stars;
+    }
+  };
+  rating();
+
   return (
     <MUICard
       raised
@@ -48,11 +65,13 @@ const Card: FunctionComponent<CardProps> = ({ wine }) => {
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", pb: 1 }}>
             {/* Rating need to be adjusted render star per 1 and half star if between ~ 0.3 and 0.7 */}
-            <StarIcon color="warning" />
+            {/* <StarIcon color="warning" />
             <StarIcon color="warning" />
             <StarIcon color="warning" />
             <StarHalfIcon color="warning" />
-            <StarOutlineIcon color="warning" />
+            <StarOutlineIcon color="warning" /> */}
+            {rating()}
+
             <Typography sx={{ mt: 0.3 }} variant="subtitle2">
               {`(${wine.rating.length})`}
             </Typography>
