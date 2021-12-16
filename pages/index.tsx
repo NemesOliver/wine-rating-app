@@ -73,12 +73,23 @@ export const getServerSideProps: GetServerSideProps = async () => {
   initializeFirebase();
   const db = getFirestore();
   const winesColRef = collection(db, "wines");
+  let wines: {}[] = [];
 
-  const snapshot = await getDocs(winesColRef);
-  const wines = await snapshot.docs.map((doc) => ({
-    ...doc.data(),
-    id: doc.id,
-  }));
+  try {
+    const snapshot = await getDocs(winesColRef);
+    await snapshot.docs.forEach((doc) => {
+      wines.push({ ...doc.data(), id: doc.id });
+    });
+  } catch (e) {
+    console.warn(e);
+  }
+
+  // const snapshot = await getDocs(winesColRef);
+  // const wines = await snapshot.docs.map((doc) => ({
+  //   ...doc.data(),
+  //   id: doc.id,
+  // }));
+  // try an catch
 
   return {
     props: { wines },
