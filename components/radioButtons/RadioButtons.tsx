@@ -3,8 +3,6 @@ import { useState } from "react";
 import RadioBtn from "./RadioBtn.styled";
 
 const RadioButtons = () => {
-  const [checked, setChecked] = useState(false);
-
   return (
     <RadioBtn>
       <div>

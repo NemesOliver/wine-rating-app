@@ -3,7 +3,8 @@ import styled from "styled-components";
 const RadioBtn = styled.div`
   display: flex;
   justify-content: space-around;
-  max-width: 400px;
+  /* max width */
+  flex-basis: 400px;
 
   input[type="radio"] {
     display: none;
@@ -19,6 +20,7 @@ const RadioBtn = styled.div`
 
   span {
     cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,6 +29,10 @@ const RadioBtn = styled.div`
     border-radius: 15px;
     box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
       0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+
+    &:active {
+      transform: scale(0.95);
+    }
   }
 `;
 

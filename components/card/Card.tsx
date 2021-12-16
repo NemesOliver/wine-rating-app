@@ -1,12 +1,10 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import {
   Card as MUICard,
   Box,
   CardContent,
   Typography,
-  IconButton,
   CardMedia,
-  CardActionArea,
   Button,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
@@ -14,7 +12,19 @@ import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
-const Card = () => {
+interface CardProps {
+  wine: {
+    name: string;
+    price: string;
+    rating: string[];
+    region: string;
+    type: string;
+    photoUrl: string;
+    id: string;
+  };
+}
+
+const Card: FunctionComponent<CardProps> = ({ wine }) => {
   return (
     <MUICard
       raised
@@ -28,34 +38,37 @@ const Card = () => {
       <CardMedia
         component="img"
         sx={{ maxWidth: 100 }}
-        image="/wine_placeholder.jpg"
+        src={wine.photoUrl}
         alt="Live from space album cover"
       />
       <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
-            Bourdaux
+            {wine.name}
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", pb: 1 }}>
+            {/* Rating need to be adjusted render star per 1 and half star if between ~ 0.3 and 0.7 */}
             <StarIcon color="warning" />
             <StarIcon color="warning" />
             <StarIcon color="warning" />
             <StarHalfIcon color="warning" />
             <StarOutlineIcon color="warning" />
             <Typography sx={{ mt: 0.3 }} variant="subtitle2">
-              (47)
+              {`(${wine.rating.length})`}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", pb: 1 }}>
-            <Typography variant="caption">£7.99</Typography>
+            <Typography variant="caption">{`£${wine.price}`}</Typography>
             <FiberManualRecordIcon
               sx={{ width: 7, ml: "5px", mr: "5px", mb: "2px" }}
             />
-            <Typography variant="caption">RED</Typography>
+            <Typography variant="caption">{wine.type.toUpperCase()}</Typography>
             <FiberManualRecordIcon
               sx={{ width: 7, ml: "5px", mr: "5px", mb: "2px" }}
             />
-            <Typography variant="caption">FRANCE</Typography>
+            <Typography variant="caption">
+              {wine.region.toUpperCase()}
+            </Typography>
           </Box>
         </CardContent>
       </Box>
