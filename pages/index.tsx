@@ -1,5 +1,10 @@
 import { useContext, ReactNode } from "react";
-import type { GetServerSideProps, NextPage, NextPageContext } from "next";
+import type {
+  GetServerSideProps,
+  GetStaticProps,
+  NextPage,
+  NextPageContext,
+} from "next";
 import Head from "next/head";
 import { AuthContext } from "../context/AuthContext";
 import initializeFirebase from "../firebase";
@@ -69,7 +74,7 @@ const Home: NextPage<PageProps> = ({ wines }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   initializeFirebase();
   const db = getFirestore();
   const winesColRef = collection(db, "wines");
