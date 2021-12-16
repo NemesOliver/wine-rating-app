@@ -26,7 +26,6 @@ interface CardProps {
 
 const Card: FunctionComponent<CardProps> = ({ wine }) => {
   const rating = () => {
-    console.log(wine.rating);
     if (wine.rating.length) {
       const averageRating = wine.rating
         .reduce((a, b) => (a + b) / wine.rating.length)
@@ -35,7 +34,7 @@ const Card: FunctionComponent<CardProps> = ({ wine }) => {
       const stars = Array(parseInt(averageRating))
         .fill("star")
         .map((star, index) => <StarIcon key={index} color="warning" />);
-        // render additional empty stars for missing rating up to 5
+      // render additional empty stars for missing rating up to 5
 
       return stars;
     }

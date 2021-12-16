@@ -74,7 +74,7 @@ const Home: NextPage<PageProps> = ({ wines }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export async function getServerSideProps() {
   initializeFirebase();
   const db = getFirestore();
   const winesColRef = collection(db, "wines");
@@ -99,6 +99,6 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: { wines },
   };
-};
+}
 
 export default Home;
