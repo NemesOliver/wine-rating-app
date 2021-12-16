@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
-  outputFileTracing: false,
+  trailingSlash: true,
 };
 
 const withPWA = require("next-pwa");
