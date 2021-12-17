@@ -1,10 +1,5 @@
 import { useContext, ReactNode, useEffect, useState } from "react";
-import type {
-  GetServerSideProps,
-  GetStaticProps,
-  NextPage,
-  NextPageContext,
-} from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 import { AuthContext } from "../context/AuthContext";
 import initializeFirebase from "../firebase";
@@ -28,30 +23,30 @@ interface Wine {
   photoUrl: string;
 }
 
-const Home: NextPage<PageProps> = () => {
+const Home: NextPage<PageProps> = ({ wines }) => {
   const { isSignedIn } = useContext(AuthContext);
-  const [wines, setWines] = useState<any[]>([]);
+  // const [wines, setWines] = useState<any[]>([]);
 
-  useEffect(() => {
-    const getWines = async () => {
-      initializeFirebase();
-      const db = getFirestore();
-      const winesColRef = collection(db, "wines");
+  // useEffect(() => {
+  //   const getWines = async () => {
+  //     initializeFirebase();
+  //     const db = getFirestore();
+  //     const winesColRef = collection(db, "wines");
 
-      try {
-        const snapshot = await getDocs(winesColRef);
-        const wines = await snapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
+  //     try {
+  //       const snapshot = await getDocs(winesColRef);
+  //       const wines = await snapshot.docs.map((doc) => ({
+  //         ...doc.data(),
+  //         id: doc.id,
+  //       }));
 
-        setWines(wines);
-      } catch (e) {
-        console.warn(e);
-      }
-    };
-    getWines();
-  }, []);
+  //       setWines(wines);
+  //     } catch (e) {
+  //       console.warn(e);
+  //     }
+  //   };
+  //   getWines();
+  // }, []);
 
   return (
     <div>
@@ -96,24 +91,24 @@ const Home: NextPage<PageProps> = () => {
 
 // WHY DONT YOU WORK????
 
-// export const getServerSideProps = async () => {
-//   initializeFirebase();
-//   const db = getFirestore();
-//   const winesColRef = collection(db, "wines");
-//   let wines: {}[] = [];
+export const getServerSideProps = async () => {
+  initializeFirebase();
+  const db = getFirestore();
+  const winesColRef = collection(db, "wines");
+  let wines: {}[] = [];
 
-//   try {
-//     const snapshot = await getDocs(winesColRef);
-//     await snapshot.docs.forEach((doc) => {
-//       wines.push({ ...doc.data(), id: doc.id });
-//     });
-//   } catch (e) {
-//     console.warn(e);
-//   }
+  try {
+    const snapshot = await getDocs(winesColRef);
+    await snapshot.docs.forEach((doc) => {
+      wines.push({ ...doc.data(), id: doc.id });
+    });
+  } catch (e) {
+    console.warn(e);
+  }
 
-//   return {
-//     props: { wines },
-//   };
-// };
+  return {
+    props: { wines },
+  };
+};
 
 export default Home;
