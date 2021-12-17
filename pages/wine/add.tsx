@@ -58,7 +58,7 @@ const AddWine = () => {
     } else {
       addDoc(winesColRef, {
         name,
-        price: parseInt(price),
+        price,
         region,
         rating: [],
         type: selectValue,

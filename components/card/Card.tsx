@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import {
   Card as MUICard,
   Box,
@@ -6,6 +6,7 @@ import {
   Typography,
   CardMedia,
   Button,
+  Rating,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
@@ -25,21 +26,19 @@ interface CardProps {
 }
 
 const Card: FunctionComponent<CardProps> = ({ wine }) => {
-  const rating = () => {
+  const [ratingValue, setRatingValue] = useState(0);
+
+  useEffect(() => {
     if (wine.rating.length) {
-      const averageRating = wine.rating
-        .reduce((a, b) => (a + b) / wine.rating.length)
-        .toFixed();
+      const averageRating = wine.rating.reduce(
+        (a, b) => (a + b) / wine.rating.length
+      );
 
-      const stars = Array(parseInt(averageRating))
-        .fill("star")
-        .map((star, index) => <StarIcon key={index} color="warning" />);
-      // render additional empty stars for missing rating up to 5
-
-      return stars;
+      setRatingValue(averageRating);
     }
-  };
-  rating();
+  }, [wine]);
+
+  // console.log(ratingValue);
 
   return (
     <MUICard
@@ -63,18 +62,12 @@ const Card: FunctionComponent<CardProps> = ({ wine }) => {
             {wine.name}
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", pb: 1 }}>
-            {/* Rating need to be adjusted render star per 1 and half star if between ~ 0.3 and 0.7 */}
-            {/* <StarIcon color="warning" />
-            <StarIcon color="warning" />
-            <StarIcon color="warning" />
-            <StarHalfIcon color="warning" />
-            <StarOutlineIcon color="warning" /> */}
-            {rating()}
-
+            <Rating value={ratingValue} readOnly precision={0.5} />
             <Typography sx={{ mt: 0.3 }} variant="subtitle2">
               {`(${wine.rating.length})`}
             </Typography>
           </Box>
+
           <Box sx={{ display: "flex", alignItems: "center", pb: 1 }}>
             <Typography variant="caption">{`£${wine.price}`}</Typography>
             <FiberManualRecordIcon

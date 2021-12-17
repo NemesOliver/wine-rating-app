@@ -17,7 +17,7 @@ const withAuth = (Component: FunctionComponent) => {
 
       // if no user redirect to /login
       if (!isSignedIn) {
-        Router.replace("login");
+        Router.replace("/login");
         return null;
       }
 

@@ -20,7 +20,7 @@ const MobileMenu = () => {
         <IconButton color="inherit">
           <FilterListIcon />
         </IconButton>
-        <Link href="/profile" passHref>
+        <Link href="/user/profile" passHref>
           <IconButton color="inherit">
             <AccountCircleIcon />
           </IconButton>

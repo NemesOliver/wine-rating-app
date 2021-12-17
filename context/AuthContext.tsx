@@ -11,11 +11,14 @@ interface AuthContextProps {
 interface AuthProviderValue {
   isSignedIn: boolean | null;
   currentUserId: string;
+  userDocId: string;
+  setUserDocId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const AuthContextProvider = ({ children }: AuthContextProps) => {
   const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null);
   const [currentUserId, setCurrentUserId] = useState("");
+  const [userDocId, setUserDocId] = useState("");
 
   useEffect(() => {
     initializeFirebase();
@@ -35,7 +38,9 @@ const AuthContextProvider = ({ children }: AuthContextProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isSignedIn, currentUserId }}>
+    <AuthContext.Provider
+      value={{ isSignedIn, currentUserId, userDocId, setUserDocId }}
+    >
       {children}
     </AuthContext.Provider>
   );
