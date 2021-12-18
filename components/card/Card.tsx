@@ -8,9 +8,6 @@ import {
   Button,
   Rating,
 } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 interface CardProps {
@@ -29,6 +26,7 @@ const Card: FunctionComponent<CardProps> = ({ wine }) => {
   const [ratingValue, setRatingValue] = useState(0);
 
   useEffect(() => {
+    // Calculate average rating
     if (wine.rating.length) {
       const averageRating = wine.rating.reduce(
         (a, b) => (a + b) / wine.rating.length
@@ -37,8 +35,6 @@ const Card: FunctionComponent<CardProps> = ({ wine }) => {
       setRatingValue(averageRating);
     }
   }, [wine]);
-
-  // console.log(ratingValue);
 
   return (
     <MUICard
