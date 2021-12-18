@@ -10,8 +10,8 @@ import initializeFirebase from "../../firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { SnackbarContext } from "../../context/SnackbarContext";
 import ProfilePage from "../../components/pages/Profile.styled";
-import EditDisplayName from "../../components/editUser/EditDisplayName";
-import UpdateAvatar from "../../components/editUser/UpdateAvatar";
+import EditDisplayName from "../../components/user/editUser/EditDisplayName";
+import UpdateAvatar from "../../components/user/editUser/UpdateAvatar";
 import {
   Avatar,
   Container,
@@ -24,6 +24,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 
 import withAuth from "../../components/withAuth";
+import Collection from "../../components/user/userCollection/collection";
 
 interface UserProfile {
   displayName: string;
@@ -145,7 +146,7 @@ const Profile = () => {
             Your Collection
           </Typography>
           <Divider flexItem sx={{ mb: "2rem" }} />
-          {/* RENDER USER ADDED CONENT HERE */}
+          <Collection />
         </ProfilePage>
       </Container>
     </div>

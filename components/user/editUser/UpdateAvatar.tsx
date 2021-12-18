@@ -2,8 +2,8 @@ import { useState, useContext, SetStateAction, useEffect } from "react";
 import Image from "next/image";
 import { doc, setDoc, getFirestore, collection } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { AuthContext } from "../../context/AuthContext";
-import { SnackbarContext } from "../../context/SnackbarContext";
+import { AuthContext } from "../../../context/AuthContext";
+import { SnackbarContext } from "../../../context/SnackbarContext";
 import {
   Button,
   Dialog,
@@ -14,7 +14,7 @@ import {
   Input,
   Box,
 } from "@mui/material";
-import initializeFirebase from "../../firebase";
+import initializeFirebase from "../../../firebase";
 
 interface UpdateAvatarProps {
   avatarModalOpen: boolean;

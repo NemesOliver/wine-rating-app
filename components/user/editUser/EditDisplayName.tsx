@@ -1,9 +1,9 @@
 import { useState, useContext, SetStateAction } from "react";
 import { useRouter } from "next/router";
-import initializeFirebase from "../../firebase";
+import initializeFirebase from "../../../firebase";
 import { doc, setDoc, getFirestore, collection } from "firebase/firestore";
-import { AuthContext } from "../../context/AuthContext";
-import { SnackbarContext } from "../../context/SnackbarContext";
+import { AuthContext } from "../../../context/AuthContext";
+import { SnackbarContext } from "../../../context/SnackbarContext";
 import {
   Button,
   TextField,
