@@ -22,6 +22,7 @@ interface Wine {
   addedBy: string;
 }
 
+// component name is with lower case to prevent vercel build error
 const Collection = () => {
   const { currentUserId } = useContext(AuthContext);
   const [wines, setWines] = useState([]);
