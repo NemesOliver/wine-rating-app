@@ -1,14 +1,7 @@
-import {
-  useState,
-  useContext,
-  SetStateAction,
-  useEffect,
-  SyntheticEvent,
-} from "react";
-import { useRouter } from "next/router";
+import { useState, useContext, SetStateAction, useEffect } from "react";
 import Image from "next/image";
-import initializeFirebase from "../../firebase";
 import { doc, setDoc, getFirestore, collection } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { AuthContext } from "../../context/AuthContext";
 import { SnackbarContext } from "../../context/SnackbarContext";
 import {
@@ -21,9 +14,7 @@ import {
   Input,
   Box,
 } from "@mui/material";
-
-// TESTING FILE UPLOAD
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import initializeFirebase from "../../firebase";
 
 interface UpdateAvatarProps {
   avatarModalOpen: boolean;
@@ -40,28 +31,28 @@ const UpdateAvatar = ({
   const { triggerSnackbar } = useContext(SnackbarContext);
 
   useEffect(() => {
+    // Clean up memory
     return () => {
       URL.revokeObjectURL(preview);
     };
   }, [preview]);
 
-  //   Everything works as expected
-
   const uploadFileToFirestore = () => {
-    // Firebase storage container
+    initializeFirebase();
+    // Firebase storage container ref
     const storage = getStorage();
     const avatarRef = ref(storage, `${currentUserId}/avatar`);
 
-    // Firebase firestore
+    // Firebase firestore ref
     const db = getFirestore();
     const userColRef = collection(db, "users");
 
-    // Upload to Firebase
+    // 1. Upload file to Firebase
     uploadBytes(avatarRef, file as File)
       .then(() => {
         getDownloadURL(avatarRef)
           .then((url) => {
-            // Update user profile picture
+            // 2. Update user profile picture
             setDoc(
               doc(userColRef, userDocId),
               { photoUrl: url },
