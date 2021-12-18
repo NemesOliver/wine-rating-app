@@ -29,8 +29,7 @@ const Register = () => {
         setDoc(doc(userColRef), {
           uid,
           email,
-          photoUrl:
-            "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png", // Stock avatar placeholder
+          photoUrl: "",
           favorites: [],
           wines: [],
         })

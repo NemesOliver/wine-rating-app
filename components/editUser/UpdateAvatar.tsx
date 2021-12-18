@@ -23,7 +23,7 @@ import {
 } from "@mui/material";
 
 // TESTING FILE UPLOAD
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 interface UpdateAvatarProps {
   avatarModalOpen: boolean;
@@ -36,28 +36,59 @@ const UpdateAvatar = ({
 }: UpdateAvatarProps) => {
   const [file, setFile] = useState<FileList | {}>({} as FileList);
   const [preview, setPreview] = useState("");
-  const { userDocId } = useContext(AuthContext);
+  const { userDocId, currentUserId } = useContext(AuthContext);
   const { triggerSnackbar } = useContext(SnackbarContext);
 
   useEffect(() => {
     return () => {
-      setFile({});
       URL.revokeObjectURL(preview);
     };
   }, [preview]);
 
-  // Everything works as expected
+  //   Everything works as expected
 
-  // const uploadFileToFirestore = () => {
-  //   const storage = getStorage();
-  //   const avatarRef = ref(storage, `images/avatar.jpg`);
+  const uploadFileToFirestore = () => {
+    // Firebase storage container
+    const storage = getStorage();
+    const avatarRef = ref(storage, `${currentUserId}/avatar`);
 
-  //   uploadBytes(avatarRef, file)
-  //     .then((snapshot) => {
-  //       console.log("Success", snapshot);
-  //     })
-  //     .catch((e) => console.warn(e));
-  // };
+    // Firebase firestore
+    const db = getFirestore();
+    const userColRef = collection(db, "users");
+
+    // Upload to Firebase
+    uploadBytes(avatarRef, file as File)
+      .then(() => {
+        getDownloadURL(avatarRef)
+          .then((url) => {
+            // Update user profile picture
+            setDoc(
+              doc(userColRef, userDocId),
+              { photoUrl: url },
+              { merge: true }
+            )
+              .then(() => {
+                triggerSnackbar(
+                  "success",
+                  "Your profile picture has been successfuly updated."
+                );
+                setAvatarModalOpen(false);
+              })
+              .catch((e) => {
+                console.warn(e);
+                triggerSnackbar("error", "Failed to update.");
+              });
+          })
+          .catch((e) => {
+            console.warn(e);
+            triggerSnackbar("error", "Failed to update.");
+          });
+      })
+      .catch((e) => {
+        console.warn(e);
+        triggerSnackbar("error", "Failed to update.");
+      });
+  };
 
   return (
     <>
@@ -65,7 +96,7 @@ const UpdateAvatar = ({
         <DialogTitle>Update avatar</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Choose an avatar from your file system.
+            *It might take few seconds for a picture to update.
           </DialogContentText>
           {preview && (
             <Box sx={{ position: "relative", height: "150px", width: "150px" }}>
@@ -95,7 +126,7 @@ const UpdateAvatar = ({
             <Button component="span">Upload</Button>
           </label>
 
-          <Button>Confirm</Button>
+          <Button onClick={uploadFileToFirestore}>Confirm</Button>
         </DialogActions>
       </Dialog>
     </>

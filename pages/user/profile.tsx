@@ -28,7 +28,7 @@ interface UserProfile {
 }
 
 const Profile = () => {
-  const [avatarModalOpen, setAvatarModalOpen] = useState(true);
+  const [avatarModalOpen, setAvatarModalOpen] = useState(false);
   const [displayNameModalOpen, setDisplayNameModalOpen] = useState(false);
   const { currentUserId, setUserDocId } = useContext(AuthContext);
   const [userProfile, setUserProfile] = useState<UserProfile | any>({});
@@ -51,7 +51,7 @@ const Profile = () => {
       setUserDocId(userFound.id);
     };
     getUser();
-  }, [currentUserId, setUserDocId, displayNameModalOpen]);
+  }, [currentUserId, setUserDocId, displayNameModalOpen, setAvatarModalOpen]);
 
   return (
     <Container>
