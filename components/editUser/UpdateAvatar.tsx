@@ -103,9 +103,8 @@ const UpdateAvatar = ({
         <DialogActions>
           <Button onClick={() => setAvatarModalOpen(false)}>Cancel</Button>
           <label htmlFor="file-upload-button">
-            <input
-              capture="user"
-              style={{ display: "none" }}
+            <Input
+              sx={{ display: "none" }}
               id="file-upload-button"
               type="file"
               onChange={(e) => {
