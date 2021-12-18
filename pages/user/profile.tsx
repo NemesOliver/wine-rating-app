@@ -24,7 +24,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 
 import withAuth from "../../components/withAuth";
-import Collection from "../../components/user/userCollection/collection";
+import Collection from "../../components/user/userCollection/Collection";
 
 interface UserProfile {
   displayName: string;
