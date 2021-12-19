@@ -42,7 +42,6 @@ const Card: FunctionComponent<CardProps> = ({ wine }) => {
       sx={{
         display: "flex",
         borderRadius: "15px",
-        maxWidth: "450px",
         position: "relative",
       }}
     >

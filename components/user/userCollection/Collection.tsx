@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Card from "../../card/Card";
-import { Grid } from "@mui/material";
+import { Grid, Box, Typography } from "@mui/material";
 import initializeFirebase from "../../../firebase";
 import {
   collection,
@@ -10,6 +10,7 @@ import {
   where,
 } from "firebase/firestore";
 import { AuthContext } from "../../../context/AuthContext";
+import Link from "next/link";
 
 interface Wine {
   name: string;
@@ -22,7 +23,6 @@ interface Wine {
   addedBy: string;
 }
 
-// component name is with lower case to prevent vercel build error
 const Collection = () => {
   const { currentUserId } = useContext(AuthContext);
   const [wines, setWines] = useState([]);
@@ -31,37 +31,47 @@ const Collection = () => {
     initializeFirebase();
 
     const getUserWines = async () => {
-      const db = getFirestore();
-      const userWineColRef = collection(db, "wines");
-      const wineQuery = query(
-        userWineColRef,
-        where("addedBy", "==", currentUserId)
-      );
+      try {
+        const db = getFirestore();
+        const userWineColRef = collection(db, "wines");
+        const wineQuery = query(
+          userWineColRef,
+          where("addedBy", "==", currentUserId)
+        );
 
-      const snapshot = await getDocs(wineQuery);
-      const usersCollection = snapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
+        const snapshot = await getDocs(wineQuery);
+        const usersCollection = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
 
-      // check back on this
-      setWines(usersCollection as any);
+        // check back on this
+        setWines(usersCollection as any);
+      } catch (e) {
+        console.warn(e);
+      }
     };
 
     getUserWines();
   }, [currentUserId]);
 
   return (
-    <div>
-      {/* RENDER LOAD ING OR NO WINES IF arr.length < 0 */}
-      <Grid container spacing={5}>
-        {wines.map((wine: Wine) => (
-          <Grid key={wine.id} item xs={12}>
-            <Card wine={wine} />
-          </Grid>
-        ))}
-      </Grid>
-    </div>
+    <Box>
+      {wines.length ? (
+        <Grid sx={{ mb: "4.5rem" }} container spacing={5}>
+          {wines.map((wine: Wine) => (
+            <Grid key={wine.id} item xs={12}>
+              <Card wine={wine} />
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <Typography>
+          There is noting in your collection, start building tour collection
+          <Link href={"/"}>now</Link>.
+        </Typography>
+      )}
+    </Box>
   );
 };
 

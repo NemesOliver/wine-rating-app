@@ -31,6 +31,7 @@ interface Wine {
 
 const Home: NextPage<PageProps> = ({ wines }) => {
   const { isSignedIn } = useContext(AuthContext);
+  const [filteredValue, setFilteredValue] = useState("all");
 
   return (
     <div>
@@ -48,7 +49,7 @@ const Home: NextPage<PageProps> = ({ wines }) => {
           justifyContent: "center",
         }}
       >
-        <RadioButtons />
+        <RadioButtons setFilteredValue={setFilteredValue} />
       </div>
 
       <Container maxWidth="sm">
@@ -57,11 +58,22 @@ const Home: NextPage<PageProps> = ({ wines }) => {
 
         {/* position items in the center? - find out how */}
         <Grid container spacing={5}>
-          {wines.map((wine: Wine) => (
-            <Grid key={wine.id} item xs={12}>
-              <Card wine={wine} />
-            </Grid>
-          ))}
+          {wines.map((wine: Wine) => {
+            if (wine.type == filteredValue) {
+              return (
+                <Grid key={wine.id} item xs={12}>
+                  <Card wine={wine} />
+                </Grid>
+              );
+            }
+            if (filteredValue == "all") {
+              return (
+                <Grid key={wine.id} item xs={12}>
+                  <Card wine={wine} />
+                </Grid>
+              );
+            }
+          })}
         </Grid>
         <br />
         <br />

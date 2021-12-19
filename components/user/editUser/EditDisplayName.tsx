@@ -64,8 +64,15 @@ const EditDisplayName = ({
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDisplayNameModalOpen(false)}>Cancel</Button>
-          <Button onClick={onClickChangeDisplayName}>Submit</Button>
+          <Button
+            sx={{ flexGrow: 1 }}
+            onClick={() => setDisplayNameModalOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button color="success" onClick={onClickChangeDisplayName}>
+            Submit
+          </Button>
         </DialogActions>
       </Dialog>
     </>

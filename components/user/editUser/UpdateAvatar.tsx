@@ -4,6 +4,7 @@ import { doc, setDoc, getFirestore, collection } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { AuthContext } from "../../../context/AuthContext";
 import { SnackbarContext } from "../../../context/SnackbarContext";
+import { LoadingButton } from "@mui/lab";
 import {
   Button,
   Dialog,
@@ -27,6 +28,7 @@ const UpdateAvatar = ({
 }: UpdateAvatarProps) => {
   const [file, setFile] = useState<FileList | {}>({} as FileList);
   const [preview, setPreview] = useState("");
+  const [loading, setLoading] = useState(false);
   const { userDocId, currentUserId } = useContext(AuthContext);
   const { triggerSnackbar } = useContext(SnackbarContext);
 
@@ -47,7 +49,8 @@ const UpdateAvatar = ({
     const db = getFirestore();
     const userColRef = collection(db, "users");
 
-    // 1. Upload file to Firebase
+    // 1. Upload file to Firebase and signal loading
+    setLoading(true);
     uploadBytes(avatarRef, file as File)
       .then(() => {
         getDownloadURL(avatarRef)
@@ -64,19 +67,23 @@ const UpdateAvatar = ({
                   "Your profile picture has been successfuly updated."
                 );
                 setAvatarModalOpen(false);
+                setLoading(false);
               })
               .catch((e) => {
                 console.warn(e);
+                setLoading(false);
                 triggerSnackbar("error", "Failed to update.");
               });
           })
           .catch((e) => {
             console.warn(e);
+            setLoading(false);
             triggerSnackbar("error", "Failed to update.");
           });
       })
       .catch((e) => {
         console.warn(e);
+        setLoading(false);
         triggerSnackbar("error", "Failed to update.");
       });
   };
@@ -101,7 +108,12 @@ const UpdateAvatar = ({
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setAvatarModalOpen(false)}>Cancel</Button>
+          <Button
+            sx={{ flexGrow: 1 }}
+            onClick={() => setAvatarModalOpen(false)}
+          >
+            Cancel
+          </Button>
           <label htmlFor="file-upload-button">
             <Input
               sx={{ display: "none" }}
@@ -114,10 +126,18 @@ const UpdateAvatar = ({
                 );
               }}
             />
-            <Button component="span">Upload</Button>
+            <Button color="inherit" component="span">
+              Upload
+            </Button>
           </label>
 
-          <Button onClick={uploadFileToFirestore}>Confirm</Button>
+          <LoadingButton
+            color="success"
+            loading={loading}
+            onClick={uploadFileToFirestore}
+          >
+            Confirm
+          </LoadingButton>
         </DialogActions>
       </Dialog>
     </>

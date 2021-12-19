@@ -83,8 +83,8 @@ const Profile = () => {
               sx={{
                 cursor: "pointer",
                 background: "#030303",
-                width: "120px",
-                height: "120px",
+                width: "160px",
+                height: "160px",
                 position: "absolute",
                 mt: "50px",
                 mb: "2rem",
@@ -113,8 +113,8 @@ const Profile = () => {
               sx={{
                 mt: "50px",
                 mb: "2rem",
-                width: "120px",
-                height: "120px",
+                width: "160px",
+                height: "160px",
                 boxShadow:
                   "0px 5px 5px -3px rgb(0 0 0 / 20%) , 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%)",
               }}
@@ -127,7 +127,7 @@ const Profile = () => {
               displayNameModalOpen={displayNameModalOpen}
               setDisplayNameModalOpen={setDisplayNameModalOpen}
             />
-            <Typography fontWeight="bold" variant="h6" sx={{ ml: "45px" }}>
+            <Typography fontWeight="bold" variant="h5" sx={{ ml: "45px" }}>
               {userProfile.displayName
                 ? userProfile.displayName
                 : userProfile.email}
