@@ -1,12 +1,13 @@
 import { initializeApp, getApps } from "firebase/app";
 
+// Test config
 const firebaseConfig = {
-  apiKey: "AIzaSyB8-d1srQPrZwegCNKBgdwVU62lJ2lMXY4",
-  authDomain: "fir-test-97ab8.firebaseapp.com",
-  projectId: "fir-test-97ab8",
-  storageBucket: "fir-test-97ab8.appspot.com",
-  messagingSenderId: "528828613832",
-  appId: "1:528828613832:web:d10f55576875d7223511fd",
+  apiKey: "AIzaSyBoa-HHCVG_0Iu9ANc6uuE3J42cMG9_W0Y",
+  authDomain: "wine-app-6647b.firebaseapp.com",
+  projectId: "wine-app-6647b",
+  storageBucket: "wine-app-6647b.appspot.com",
+  messagingSenderId: "30412945252",
+  appId: "1:30412945252:web:4e71384c05a31eb008ec71"
 };
 
 const initializeFirebase = () => {
